@@ -1,0 +1,728 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VibeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CHAT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="id_event" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EVENTS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="image" Type="varchar" MaxLength="255" />
+          <Property Name="capacity" Type="int" Nullable="false" />
+          <Property Name="seats" Type="bit" Nullable="false" />
+          <Property Name="num_rows" Type="int" />
+          <Property Name="num_columns" Type="int" />
+          <Property Name="id_organizer" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ITEMS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_item" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="id_space" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MESSAGES">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="context" Type="text" Nullable="false" />
+          <Property Name="send_at" Type="datetime" Nullable="false" />
+          <Property Name="sender_id" Type="int" Nullable="false" />
+          <Property Name="id_chat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RESERVES">
+          <Key>
+            <PropertyRef Name="id_event" />
+            <PropertyRef Name="id_space" />
+          </Key>
+          <Property Name="id_event" Type="int" Nullable="false" />
+          <Property Name="id_space" Type="int" Nullable="false" />
+          <Property Name="reservation_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPACES">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="square_meters" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="capacity" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="latitude" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="longitude" Type="decimal" Precision="11" Scale="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TICKETS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="num_col" Type="int" />
+          <Property Name="num_row" Type="int" />
+          <Property Name="id_event" Type="int" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullname" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CHAT__id_event__1AD3FDA4">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CHAT__id_user__19DFD96B">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EVENTS__id_organ__09A971A2">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EVENTS">
+              <PropertyRef Name="id_organizer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ITEMS__id_space__1332DBDC">
+          <End Role="SPACES" Type="Self.SPACES" Multiplicity="1" />
+          <End Role="ITEMS" Type="Self.ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPACES">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ITEMS">
+              <PropertyRef Name="id_space" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__id_cha__1F98B2C1">
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="1" />
+          <End Role="MESSAGES" Type="Self.MESSAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CHAT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="id_chat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__sender__1EA48E88">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="MESSAGES" Type="Self.MESSAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="sender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVES__id_eve__0F624AF8">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="RESERVES" Type="Self.RESERVES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RESERVES">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVES__id_spa__10566F31">
+          <End Role="SPACES" Type="Self.SPACES" Multiplicity="1" />
+          <End Role="RESERVES" Type="Self.RESERVES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPACES">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RESERVES">
+              <PropertyRef Name="id_space" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETS__id_even__160F4887">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="TICKETS" Type="Self.TICKETS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TICKETS">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETS__id_user__17036CC0">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="TICKETS" Type="Self.TICKETS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TICKETS">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__id_rol__05D8E0BE">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VibeModelStoreContainer">
+          <EntitySet Name="CHAT" EntityType="Self.CHAT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EVENTS" EntityType="Self.EVENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ITEMS" EntityType="Self.ITEMS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MESSAGES" EntityType="Self.MESSAGES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESERVES" EntityType="Self.RESERVES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPACES" EntityType="Self.SPACES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TICKETS" EntityType="Self.TICKETS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CHAT__id_event__1AD3FDA4" Association="Self.FK__CHAT__id_event__1AD3FDA4">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CHAT__id_user__19DFD96B" Association="Self.FK__CHAT__id_user__19DFD96B">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EVENTS__id_organ__09A971A2" Association="Self.FK__EVENTS__id_organ__09A971A2">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="EVENTS" EntitySet="EVENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ITEMS__id_space__1332DBDC" Association="Self.FK__ITEMS__id_space__1332DBDC">
+            <End Role="SPACES" EntitySet="SPACES" />
+            <End Role="ITEMS" EntitySet="ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__id_cha__1F98B2C1" Association="Self.FK__MESSAGES__id_cha__1F98B2C1">
+            <End Role="CHAT" EntitySet="CHAT" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__sender__1EA48E88" Association="Self.FK__MESSAGES__sender__1EA48E88">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVES__id_eve__0F624AF8" Association="Self.FK__RESERVES__id_eve__0F624AF8">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="RESERVES" EntitySet="RESERVES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVES__id_spa__10566F31" Association="Self.FK__RESERVES__id_spa__10566F31">
+            <End Role="SPACES" EntitySet="SPACES" />
+            <End Role="RESERVES" EntitySet="RESERVES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETS__id_even__160F4887" Association="Self.FK__TICKETS__id_even__160F4887">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="TICKETS" EntitySet="TICKETS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETS__id_user__17036CC0" Association="Self.FK__TICKETS__id_user__17036CC0">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="TICKETS" EntitySet="TICKETS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__id_rol__05D8E0BE" Association="Self.FK__USERS__id_rol__05D8E0BE">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VibeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CHAT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="id_event" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EVENTS" Relationship="Self.FK__CHAT__id_event__1AD3FDA4" FromRole="CHAT" ToRole="EVENTS" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__CHAT__id_user__19DFD96B" FromRole="CHAT" ToRole="USERS" />
+          <NavigationProperty Name="MESSAGES" Relationship="Self.FK__MESSAGES__id_cha__1F98B2C1" FromRole="CHAT" ToRole="MESSAGES" />
+        </EntityType>
+        <EntityType Name="EVENTS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="capacity" Type="Int32" Nullable="false" />
+          <Property Name="seats" Type="Boolean" Nullable="false" />
+          <Property Name="num_rows" Type="Int32" />
+          <Property Name="num_columns" Type="Int32" />
+          <Property Name="id_organizer" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="CHAT" Relationship="Self.FK__CHAT__id_event__1AD3FDA4" FromRole="EVENTS" ToRole="CHAT" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__EVENTS__id_organ__09A971A2" FromRole="EVENTS" ToRole="USERS" />
+          <NavigationProperty Name="RESERVES" Relationship="Self.FK__RESERVES__id_eve__0F624AF8" FromRole="EVENTS" ToRole="RESERVES" />
+          <NavigationProperty Name="TICKETS" Relationship="Self.FK__TICKETS__id_even__160F4887" FromRole="EVENTS" ToRole="TICKETS" />
+        </EntityType>
+        <EntityType Name="ITEMS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_item" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="id_space" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SPACES" Relationship="Self.FK__ITEMS__id_space__1332DBDC" FromRole="ITEMS" ToRole="SPACES" />
+        </EntityType>
+        <EntityType Name="MESSAGES">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="context" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="send_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sender_id" Type="Int32" Nullable="false" />
+          <Property Name="id_chat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CHAT" Relationship="Self.FK__MESSAGES__id_cha__1F98B2C1" FromRole="MESSAGES" ToRole="CHAT" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__MESSAGES__sender__1EA48E88" FromRole="MESSAGES" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="RESERVES">
+          <Key>
+            <PropertyRef Name="id_event" />
+            <PropertyRef Name="id_space" />
+          </Key>
+          <Property Name="id_event" Type="Int32" Nullable="false" />
+          <Property Name="id_space" Type="Int32" Nullable="false" />
+          <Property Name="reservation_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="EVENTS" Relationship="Self.FK__RESERVES__id_eve__0F624AF8" FromRole="RESERVES" ToRole="EVENTS" />
+          <NavigationProperty Name="SPACES" Relationship="Self.FK__RESERVES__id_spa__10566F31" FromRole="RESERVES" ToRole="SPACES" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__USERS__id_rol__05D8E0BE" FromRole="ROL" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="SPACES">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="square_meters" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="capacity" Type="Int32" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="latitude" Type="Decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="longitude" Type="Decimal" Precision="11" Scale="8" Nullable="false" />
+          <NavigationProperty Name="ITEMS" Relationship="Self.FK__ITEMS__id_space__1332DBDC" FromRole="SPACES" ToRole="ITEMS" />
+          <NavigationProperty Name="RESERVES" Relationship="Self.FK__RESERVES__id_spa__10566F31" FromRole="SPACES" ToRole="RESERVES" />
+        </EntityType>
+        <EntityType Name="TICKETS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="num_col" Type="Int32" />
+          <Property Name="num_row" Type="Int32" />
+          <Property Name="id_event" Type="Int32" Nullable="false" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EVENTS" Relationship="Self.FK__TICKETS__id_even__160F4887" FromRole="TICKETS" ToRole="EVENTS" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__TICKETS__id_user__17036CC0" FromRole="TICKETS" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CHAT" Relationship="Self.FK__CHAT__id_user__19DFD96B" FromRole="USERS" ToRole="CHAT" />
+          <NavigationProperty Name="EVENTS" Relationship="Self.FK__EVENTS__id_organ__09A971A2" FromRole="USERS" ToRole="EVENTS" />
+          <NavigationProperty Name="MESSAGES" Relationship="Self.FK__MESSAGES__sender__1EA48E88" FromRole="USERS" ToRole="MESSAGES" />
+          <NavigationProperty Name="ROL" Relationship="Self.FK__USERS__id_rol__05D8E0BE" FromRole="USERS" ToRole="ROL" />
+          <NavigationProperty Name="TICKETS" Relationship="Self.FK__TICKETS__id_user__17036CC0" FromRole="USERS" ToRole="TICKETS" />
+        </EntityType>
+        <Association Name="FK__CHAT__id_event__1AD3FDA4">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CHAT__id_user__19DFD96B">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__id_cha__1F98B2C1">
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="1" />
+          <End Role="MESSAGES" Type="Self.MESSAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CHAT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="id_chat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EVENTS__id_organ__09A971A2">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EVENTS">
+              <PropertyRef Name="id_organizer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVES__id_eve__0F624AF8">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="RESERVES" Type="Self.RESERVES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RESERVES">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETS__id_even__160F4887">
+          <End Role="EVENTS" Type="Self.EVENTS" Multiplicity="1" />
+          <End Role="TICKETS" Type="Self.TICKETS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENTS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TICKETS">
+              <PropertyRef Name="id_event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ITEMS__id_space__1332DBDC">
+          <End Role="SPACES" Type="Self.SPACES" Multiplicity="1" />
+          <End Role="ITEMS" Type="Self.ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPACES">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ITEMS">
+              <PropertyRef Name="id_space" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__sender__1EA48E88">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="MESSAGES" Type="Self.MESSAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="sender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESERVES__id_spa__10566F31">
+          <End Role="SPACES" Type="Self.SPACES" Multiplicity="1" />
+          <End Role="RESERVES" Type="Self.RESERVES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPACES">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RESERVES">
+              <PropertyRef Name="id_space" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__id_rol__05D8E0BE">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETS__id_user__17036CC0">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="TICKETS" Type="Self.TICKETS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TICKETS">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VibeManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CHAT" EntityType="Self.CHAT" />
+          <EntitySet Name="EVENTS" EntityType="Self.EVENTS" />
+          <EntitySet Name="ITEMS" EntityType="Self.ITEMS" />
+          <EntitySet Name="MESSAGES" EntityType="Self.MESSAGES" />
+          <EntitySet Name="RESERVES" EntityType="Self.RESERVES" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" />
+          <EntitySet Name="SPACES" EntityType="Self.SPACES" />
+          <EntitySet Name="TICKETS" EntityType="Self.TICKETS" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" />
+          <AssociationSet Name="FK__CHAT__id_event__1AD3FDA4" Association="Self.FK__CHAT__id_event__1AD3FDA4">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CHAT__id_user__19DFD96B" Association="Self.FK__CHAT__id_user__19DFD96B">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__id_cha__1F98B2C1" Association="Self.FK__MESSAGES__id_cha__1F98B2C1">
+            <End Role="CHAT" EntitySet="CHAT" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EVENTS__id_organ__09A971A2" Association="Self.FK__EVENTS__id_organ__09A971A2">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="EVENTS" EntitySet="EVENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVES__id_eve__0F624AF8" Association="Self.FK__RESERVES__id_eve__0F624AF8">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="RESERVES" EntitySet="RESERVES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETS__id_even__160F4887" Association="Self.FK__TICKETS__id_even__160F4887">
+            <End Role="EVENTS" EntitySet="EVENTS" />
+            <End Role="TICKETS" EntitySet="TICKETS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ITEMS__id_space__1332DBDC" Association="Self.FK__ITEMS__id_space__1332DBDC">
+            <End Role="SPACES" EntitySet="SPACES" />
+            <End Role="ITEMS" EntitySet="ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__sender__1EA48E88" Association="Self.FK__MESSAGES__sender__1EA48E88">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESERVES__id_spa__10566F31" Association="Self.FK__RESERVES__id_spa__10566F31">
+            <End Role="SPACES" EntitySet="SPACES" />
+            <End Role="RESERVES" EntitySet="RESERVES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__id_rol__05D8E0BE" Association="Self.FK__USERS__id_rol__05D8E0BE">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETS__id_user__17036CC0" Association="Self.FK__TICKETS__id_user__17036CC0">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="TICKETS" EntitySet="TICKETS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VibeModelStoreContainer" CdmEntityContainer="VibeManagerEntities">
+          <EntitySetMapping Name="CHAT">
+            <EntityTypeMapping TypeName="VibeModel.CHAT">
+              <MappingFragment StoreEntitySet="CHAT">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_event" ColumnName="id_event" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EVENTS">
+            <EntityTypeMapping TypeName="VibeModel.EVENTS">
+              <MappingFragment StoreEntitySet="EVENTS">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="seats" ColumnName="seats" />
+                <ScalarProperty Name="num_rows" ColumnName="num_rows" />
+                <ScalarProperty Name="num_columns" ColumnName="num_columns" />
+                <ScalarProperty Name="id_organizer" ColumnName="id_organizer" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ITEMS">
+            <EntityTypeMapping TypeName="VibeModel.ITEMS">
+              <MappingFragment StoreEntitySet="ITEMS">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name_item" ColumnName="name_item" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="id_space" ColumnName="id_space" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MESSAGES">
+            <EntityTypeMapping TypeName="VibeModel.MESSAGES">
+              <MappingFragment StoreEntitySet="MESSAGES">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="context" ColumnName="context" />
+                <ScalarProperty Name="send_at" ColumnName="send_at" />
+                <ScalarProperty Name="sender_id" ColumnName="sender_id" />
+                <ScalarProperty Name="id_chat" ColumnName="id_chat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESERVES">
+            <EntityTypeMapping TypeName="VibeModel.RESERVES">
+              <MappingFragment StoreEntitySet="RESERVES">
+                <ScalarProperty Name="id_event" ColumnName="id_event" />
+                <ScalarProperty Name="id_space" ColumnName="id_space" />
+                <ScalarProperty Name="reservation_date" ColumnName="reservation_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROL">
+            <EntityTypeMapping TypeName="VibeModel.ROL">
+              <MappingFragment StoreEntitySet="ROL">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPACES">
+            <EntityTypeMapping TypeName="VibeModel.SPACES">
+              <MappingFragment StoreEntitySet="SPACES">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="square_meters" ColumnName="square_meters" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKETS">
+            <EntityTypeMapping TypeName="VibeModel.TICKETS">
+              <MappingFragment StoreEntitySet="TICKETS">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="num_col" ColumnName="num_col" />
+                <ScalarProperty Name="num_row" ColumnName="num_row" />
+                <ScalarProperty Name="id_event" ColumnName="id_event" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="VibeModel.USERS">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

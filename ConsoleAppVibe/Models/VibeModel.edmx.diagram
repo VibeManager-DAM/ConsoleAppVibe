@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ae8452b5c0f042ec84adaa279c1980ec" Name="Diagram1">
+        <EntityTypeShape EntityType="VibeModel.CHAT" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.EVENTS" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.ITEMS" Width="1.5" PointX="7.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.MESSAGES" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.RESERVES" Width="1.5" PointX="7.5" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.ROL" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.SPACES" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.TICKETS" Width="1.5" PointX="10.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VibeModel.USERS" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="VibeModel.FK__CHAT__id_event__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__CHAT__id_user__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__MESSAGES__id_cha__1F98B2C1" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__EVENTS__id_organ__09A971A2" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__RESERVES__id_eve__0F624AF8" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__TICKETS__id_even__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__ITEMS__id_space__1332DBDC" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__MESSAGES__sender__1EA48E88" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__RESERVES__id_spa__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__USERS__id_rol__05D8E0BE" ManuallyRouted="false" />
+        <AssociationConnector Association="VibeModel.FK__TICKETS__id_user__17036CC0" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
