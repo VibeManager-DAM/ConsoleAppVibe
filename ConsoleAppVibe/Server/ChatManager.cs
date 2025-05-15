@@ -111,6 +111,13 @@ namespace ConsoleAppVibe.Server
                         Console.WriteLine($"[RECEIVED] {line}");
                         var data = JsonConvert.DeserializeObject<SocketsDTO>(line);
 
+                        // 🔁 IGNORAR mensajes de ping
+                        if (data?.content?.Trim() == "ping")
+                        {
+                            Console.WriteLine($"[PING] Received ping from user {currentUserId}");
+                            continue; // No guardar ni reenviar
+                        }
+
                         if (data == null || data.sender_id != currentUserId || data.chat_id != currentChatId || string.IsNullOrWhiteSpace(data.content))
                         {
                             Console.WriteLine("[SECURITY] Invalid message structure or spoofing attempt.");
@@ -140,8 +147,7 @@ namespace ConsoleAppVibe.Server
 
                             foreach (var kvp in ConnectedClients)
                             {
-                                int userChatId;
-                                if (ClientChatMapping.TryGetValue(kvp.Key, out userChatId) && userChatId == currentChatId)
+                                if (ClientChatMapping.TryGetValue(kvp.Key, out int userChatId) && userChatId == currentChatId)
                                 {
                                     try
                                     {
